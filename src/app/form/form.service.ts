@@ -1,12 +1,14 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpClientJsonpModule } from '@angular/common/http';
-import { FormModel } from './model/form';
-import { Subscription } from 'rxjs';
+import { UserDetails } from './model/form';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Form } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FormService implements OnInit{
+export class FormService implements OnInit, OnDestroy{
 
 
   httpOptions = {
@@ -16,29 +18,67 @@ export class FormService implements OnInit{
     })
   };
 
-  fetchData: Subscription;
+  fetchData: Observable<any>;
 
   constructor(private http: HttpClient) { }
+
+  ngOnDestroy(): void {
+    
+  }
 
   ngOnInit(): void {
   }
 
-  getUser(){
+  getUser() {
     this.fetchData = this.http
      .get(
-       'https://gorest.co.in/public/v2/users/'
-     ).subscribe((res)=>{
-      console.log("response", res)
-     })
+       'https://gorest.co.in/public/v2/users'
+     );
+    
+     return this.fetchData
     //  console.log("response", response)
      // .pipe(map((users) => users || []));
     //  return response;
  }
- 
 
-  addUser(){
+//   getUser(){
+//     this.fetchData = this.http
+//      .get(
+//        'https://gorest.co.in/public/v2/users/'
+//      ).subscribe((res)=>{
+//       console.log("response", res)
+//      })
+//  }
 
-  }
+//  createUser(user: FormModel): Observable<FormModel> {
+//   return this.http.post<FormModel>('https://gorest.co.in/public/v2/users/', user, this.httpOptions)
+//     .pipe(
+//       catchError(this.handleError('addUser', user))
+//     );
+// }
+
+
+createUser(user: UserDetails) {
+  console.log("=====", user)
+  return this.http.post<UserDetails>('https://gorest.co.in/public/v2/users', user, this.httpOptions).subscribe((response)=>{
+    // console.log("======",response)
+  })
+    
+}
+
+
+  // handleError(arg0: string, hero: any): (err: any, caught: Observable<FormModel | import("@angular/common/http").HttpEvent<FormModel>>) => import("rxjs").ObservableInput<any> {
+  //   throw new Error('Method not implemented.');
+  // }
+
+//  addUser(){
+//   this.http.add('https://gorest.co.in/public/v2/users/').subscribe((res)=>{
+//     console.log("response", res)
+//    })
+//   //  console.log("response", response)
+//    // .pipe(map((users) => users || []));
+//   //  return response;
+// }
 
 
 }

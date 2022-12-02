@@ -1,5 +1,5 @@
-export interface FormModel {
-    id?: string, 
+export interface UserDetails {
+    id?: number,
     email: string,
     name: string,
     gender: string,

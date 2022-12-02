@@ -1,21 +1,47 @@
 <div>
-    <form>
-        <ul >
-            <th>email</th>
-            <input type="email" placeholder="email">
+    <form 
+    [formGroup]="formUser"
+    #userForm="ngForm"
+    (ngSubmit)="addUser(userForm)">
+            <label>Email: &nbsp;</label>
+            <input formControlName="email" placeholder="email">
             <br>
-            <th>name</th>
-            <input type="name" placeholder="name">
+            <label>Name: &nbsp;</label>
+            <input formControlName="name" placeholder="name">
             <br>
-            <th>gender</th>
-            <input type="gender" placeholder="gender">
+            <label>Select Gender: &nbsp;</label>
+            <select formControlName="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <!-- <input formControlName="gender" placeholder="gender"> -->
             <br>
-            <th>status</th>
-            <input type="status" placeholder="status">
+            <label>Status: &nbsp;</label>
+            <select formControlName="status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+            <!-- <input formControlName="status" placeholder="status"> -->
+            <br>
             <br>
             <button type="submit">Add</button>
             <button type="edit">edit</button>
             <button type="delete">delete</button>
-        </ul>
     </form>
+    <br>
+    <br>
+    <table style="width:100%">
+        <tr>
+            <td>Email</td>
+            <td>Name</td>
+            <td>Gender</td>
+            <td>Status</td>
+          </tr>
+        <tr *ngFor="let user of userDetails">
+          <td>{{user.email}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.gender}}</td>
+          <td>{{user.status}}</td>
+        </tr>
+      </table>
 </div>
